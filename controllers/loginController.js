@@ -33,10 +33,13 @@ exports.loginUser = async (req, res) => {
 
     req.session.isLoggedIn = true;
     req.session.user = user;
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect('/portal');
+    });
   } catch (error) {
     if (error) console.log(error);
   }
-  res.redirect('/portal');
 };
 
 exports.logOutUser = (req, res) => {
