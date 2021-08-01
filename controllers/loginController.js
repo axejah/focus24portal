@@ -7,12 +7,30 @@ exports.login = (req, res) => {
 exports.loginUser = async (req, res) => {
   const { emailadres, password } = req.body;
 
-  try {
-    const user = await User.findAll({ where: { emailadres: emailadres } });
+  if (!emailadres)
+    return res.render('auth/login.ejs', {
+      errorMessage: 'Vul een emailadres in.',
+    });
 
-    if (user[0].wachtwoord === password) {
-      return res.render('portal/index.ejs');
+  if (!password)
+    return res.render('auth/login.ejs', {
+      errorMessage: 'Vul een wachtwoord in',
+    });
+
+  try {
+    const user = await User.findOne({ where: { emailadres: emailadres } });
+    if (!user) {
+      return res.render('auth/login.ejs', {
+        errorMessage: 'Logingegevens zijn onjuist',
+      });
     }
+
+    if (user.wachtwoord !== password) {
+      return res.render('auth/login.ejs', {
+        errorMessage: 'Logingegevens zijn onjuist',
+      });
+    }
+    return res.redirect('/portal');
   } catch (error) {
     if (error) console.log(error);
   }

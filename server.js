@@ -14,11 +14,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 const loginRoute = require('./routes/loginRoute');
+const portalRoute = require('./routes/portalRoute');
 app.use(loginRoute);
-
-app.get('/portal', (req, res) => {
-  return res.render('portal/index.ejs');
-});
+app.use(portalRoute);
 
 db.sequelize.sync().then((req) => {
   app.listen(PORT, () => {
