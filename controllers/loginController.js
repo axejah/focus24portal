@@ -30,8 +30,17 @@ exports.loginUser = async (req, res) => {
         errorMessage: 'Logingegevens zijn onjuist',
       });
     }
-    return res.redirect('/portal');
+
+    req.session.isLoggedIn = true;
+    req.session.user = user;
   } catch (error) {
     if (error) console.log(error);
   }
+  res.redirect('/portal');
+};
+
+exports.logOutUser = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 };

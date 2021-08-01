@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const portalController = require('../controllers/portalController');
 
-router.get('/portal', portalController.portalIndex);
+const isAuth = require('../middleware/isAuth');
+
+router.get('/portal', isAuth, portalController.portalIndex);
 
 module.exports = router;

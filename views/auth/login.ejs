@@ -15,6 +15,7 @@
                 </div>
 
                 <form method="POST" action="/loginUser">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <h4>Log In</h4>
                   <p>Focus24 Portal</p>
 
