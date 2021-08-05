@@ -21,7 +21,7 @@ exports.addNewCustomer = async (req, res) => {
     telefoonnummer2,
     emailadres,
     straat,
-    huisnummmer,
+    huisnummer,
     postcode,
     plaats,
   } = req.body;
@@ -42,7 +42,7 @@ exports.addNewCustomer = async (req, res) => {
       telefoonnummer2,
       emailadres,
       straat,
-      huisnummmer,
+      huisnummer,
       postcode,
       plaats,
     });
@@ -80,7 +80,7 @@ exports.postEditCustomer = async (req, res) => {
     telefoonnummer2,
     emailadres,
     straat,
-    huisnummmer,
+    huisnummer,
     postcode,
     plaats,
   } = req.body;
@@ -103,7 +103,7 @@ exports.postEditCustomer = async (req, res) => {
         telefoonnummer2,
         emailadres,
         straat,
-        huisnummmer,
+        huisnummer,
         postcode,
         plaats,
       },
