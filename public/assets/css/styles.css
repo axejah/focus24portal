@@ -33,4 +33,13 @@ body {
   -o-object-fit: cover;
      object-fit: cover;
 }
+
+.app_link {
+  color: unset;
+  text-decoration: unset;
+}
+
+.app_link:hover {
+  color: #0c9080;
+}
 /*# sourceMappingURL=styles.css.map */

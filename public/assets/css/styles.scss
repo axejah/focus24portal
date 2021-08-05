@@ -31,3 +31,12 @@ body {
   height: 250px;
   object-fit: cover;
 }
+
+.app_link {
+  color: unset;
+  text-decoration: unset;
+
+  &:hover {
+    color: #0c9080;
+  }
+}

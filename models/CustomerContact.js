@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
+    geslacht: {
+      type: DataTypes.STRING,
+    },
     emailadres: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -21,12 +24,15 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-    telefoonnummer: {
+    telefoonnummer1: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
+    },
+    telefoonnummer2: {
+      type: DataTypes.INTEGER,
     },
     functie: {
       type: DataTypes.STRING,
