@@ -1,0 +1,75 @@
+<%- include('../../../../includes/header.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Klant toevoegen</h3>
+  </header>
+  <form action="../customers/add" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if(typeof errorMessage == "undefined"){ %>
+
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <h5>Algemene informatie</h5>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="bedrijfsnaam">Bedrijfsnaam <span style="color: red;">*</span></span>
+      <input type="text" class="form-control" placeholder="Bedrijfsnaam" aria-label="bedrijfsnaam" name="bedrijfsnaam"
+        aria-describedby="bedrijfsnaam">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="kvk_nummer">KvK-nummer</span>
+      <input type="text" class="form-control" placeholder="KvK-nummer" aria-label="kvk_nummer" name="kvk_nummer"
+        aria-describedby="kvk_nummer">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="telefoonnummer1">Telefoonnummer 1 <span style="color: red;">*</span></span>
+      <input type="text" class="form-control" placeholder="Telefoonnummer 1" aria-label="telefoonnummer1"
+        name="telefoonnummer1" aria-describedby="telefoonnummer1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="telefoonnummer2">Telefoonnummer 2</span>
+      <input type="text" class="form-control" placeholder="Telefoonnummer 2" aria-label="telefoonnummer2"
+        name="telefoonnummer2" aria-describedby="telefoonnummer2">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="emailadres">E-mailadres <span style="color: red;">*</span></span>
+      <input type="email" class="form-control" placeholder="E-mailadres" aria-label="emailadres" name="emailadres"
+        aria-describedby="emailadres">
+    </div>
+    <h5 class="mt-5">Adresinfo</h5>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="straat">Straat</span>
+      <input type="text" class="form-control" placeholder="Straat" aria-label="straat" name="straat"
+        aria-describedby="straat">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="huisnummer">Huisnummer</span>
+      <input type="text" class="form-control" placeholder="Huisnummer" aria-label="huisnummer" name="huisnummer"
+        aria-describedby="huisnummer">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="postcode">Postcode</span>
+      <input type="text" class="form-control" placeholder="Postcode" aria-label="postcode" name="postcode"
+        aria-describedby="postcode">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="plaats">Plaats</span>
+      <input type="text" class="form-control" placeholder="Plaats" aria-label="plaats" name="plaats"
+        aria-describedby="plaats">
+    </div>
+    <div class="row" mt-3 mb-3>
+
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Opslaan</button>
+        <a href="../customers" class="btn btn-danger">Annuleren</a>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<%- include('../../../../includes/footer.ejs') %>
