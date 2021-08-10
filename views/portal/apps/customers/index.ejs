@@ -4,12 +4,18 @@
   <header class="mt-5 mb-5">
     <h3>Klantenoverzicht</h3>
   </header>
-  <div class="row" mt-3 mb-3>
+  <div class="row mt-3 mb-3">
     <div class="col">
       <a href="/portal/customers/add" class="btn btn-primary">+ Klant toevoegen</a>
     </div>
   </div>
-  <table class="table">
+
+  <div class="row mt-3">
+    <input type="text" id="searchField" onkeyup="searchBox()" placeholder="Zoeken op klant..">
+  </div>
+
+  <table class="table" id="customerTable">
+
     <thead>
       <tr>
         <th scope="col">CompanyID</th>
@@ -44,10 +50,12 @@
                     <div class="col-6">
                       <h5>Algemene gegevens</h5>
                       <span>Bedrijfsnaam: <%= customers[i].bedrijfsnaam %></span><br />
-                      <span>KvK-nummer: <%= customers[i].kvk_nummer %></span><br />
+                      <span>KvK-nummer: <a href="https://www.kvk.nl/zoeken/?source=all&q=<%= customers[i].kvk_nummer %>"
+                          target="_blank"><%= customers[i].kvk_nummer %></a></span><br />
                       <span>Telefoonnummer 1: <%= customers[i].telefoonnummer1 %></span><br />
                       <span>Telefoonnummer 2: <%= customers[i].telefoonnummer2 %></span><br />
-                      <span>Emailadres: <%= customers[i].emailadres %></span><br />
+                      <span>Emailadres: <a
+                          href="mailto:<%= customers[i].emailadres %>"><%= customers[i].emailadres %></a></span><br />
                     </div>
                     <div class="col-6">
                       <h5>Adresgegevens</h5>
@@ -55,6 +63,9 @@
                       <span>Huisnummer: <%= customers[i].huisnummer %></span><br />
                       <span>Postcode: <%= customers[i].postcode %> </span><br />
                       <span>Plaats: <%= customers[i].plaats %></span><br />
+                      <span><a
+                          href="https://www.google.nl/maps/place/<%= customers[i].straat %> <%= customers[i].huisnummer %>, <%= customers[i].postcode %>, <%= customers[i].plaats %>"
+                          target="_blank">Google Maps</a></span>
                     </div>
                   </div>
                 </div>
@@ -71,6 +82,29 @@
 
     </tbody>
   </table>
+
+  <script>
+    function searchBox() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchField");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("customerTable");
+      tr = table.getElementsByTagName("tr");
+
+
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+  </script>
 
 </div>
 

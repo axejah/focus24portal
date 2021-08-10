@@ -9,11 +9,11 @@
     <% if(typeof errorMessage == "undefined"){ %>
 
     <% } else { %>
-    < class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
       <%= errorMessage %>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-<%}%>
+    </div>
+    <%}%>
     <h5>Algemene informatie</h5>
     <div class="input-group mb-3">
       <span class="input-group-text" id="voornaam">Voornaam <span style="color: red;">*</span></span>
@@ -60,12 +60,14 @@
 </div>
 <div class="input-group mb-3">
   <label class="input-group-text" for="inputGroupSelect02">Beslissingsbevoegd</label>
-  <select class="form-select" id="inputGroupSelect02" value="<%=contact[0].beslissingsbevoegd %>"
-    name="beslissingsbevoegd">
-    <option value="0">Nee</option>
-    <option value="1">Ja</option>
-  </select>
-</div>
+  <select class="form-select" id="inputGroupSelect02" name="beslissingsbevoegd">
+    <%
+    let options2 = [["Nee", 0], ["Ja", 1]]
+    for (let i = 0; i < options2.length; i++) {
+      let selected = (contact[0].beslissingsbevoegd) ? "selected" : "";
+    %><option value="<%=options2[i][1]%>" <%=selected %>><%= options2[i][0] %></option><%
+    }
+    %> </select> </div>
 <div class="input-group mb-3">
   <span class="input-group-text">Opmerkingen</span>
   <textarea class="form-control" name="remarks" aria-label="Opmerkingen" value="<%=contact[0].remarks %>"></textarea>

@@ -154,6 +154,13 @@ exports.addContacts = async (req, res) => {
     remarks,
   } = req.body;
 
+  if (!voornaam || !telefoonnummer1 || !emailadres) {
+    req.session.errorMessage = 'Vul alle verplichtte velden in.';
+    return req.session.save((err) => {
+      res.redirect(`/portal/customers/contacts/${companyId}/add`);
+    });
+  }
+
   try {
     await CustomerContact.create({
       voornaam,
@@ -199,6 +206,13 @@ exports.postEditContact = async (req, res) => {
     beslissingsbevoegd,
     remarks,
   } = req.body;
+
+  if (!voornaam || !telefoonnummer1 || !emailadres) {
+    req.session.errorMessage = 'Vul alle verplichtte velden in.';
+    return req.session.save((err) => {
+      res.redirect(`/portal/customers/contacts/edit/${id}`);
+    });
+  }
 
   try {
     const currentContact = await CustomerContact.findAll({ where: { id: id } });

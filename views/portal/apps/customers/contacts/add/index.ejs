@@ -5,7 +5,7 @@
     <h3>Contact toevoegen</h3>
   </header>
   <form action="/portal/customers/contacts/<%= companyId %>/add" method="POST">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">`
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <input type="hidden" name="id" value="<%= companyId %>">
     <% if(typeof errorMessage == "undefined"){ %>
 
