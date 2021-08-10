@@ -2,9 +2,9 @@
 
 <div class="container">
   <header class="mt-5 mb-5">
-    <h3>Klant toevoegen</h3>
+    <h3>Contact toevoegen</h3>
   </header>
-  <form action="../customers/add" method="POST">
+  <form action="/portal/customers/add" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <% if(typeof errorMessage == "undefined"){ %>
 

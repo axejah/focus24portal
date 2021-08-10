@@ -6,7 +6,7 @@
   </header>
   <div class="row" mt-3 mb-3>
     <div class="col">
-      <a href="customers/add" class="btn btn-primary">+ Klant toevoegen</a>
+      <a href="/portal/customers/add" class="btn btn-primary">+ Klant toevoegen</a>
     </div>
   </div>
   <table class="table">
@@ -16,8 +16,9 @@
         <th scope="col">Bedrijfsnaam</th>
         <th scope="col">KvK-nummer</th>
         <th scope="col">Emailadres</th>
-        <th scope="col">Details</th>
-        <th scope="col">Bewerken</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
         <td><%= customers[i].bedrijfsnaam %></td>
         <td><%= customers[i].kvk_nummer %></td>
         <td><%= customers[i].emailadres %></td>
+        <td><a href="/portal/customers/contacts/<%= customers[i].id %>" class="btn btn-success">Contacts</a></td>
         <td><a href="#" data-bs-toggle="modal" data-bs-target="#detailModal_<%= customers[i].id %>"
             class="btn btn-primary">Details</a>
           <div class="modal fade" id="detailModal_<%= customers[i].id %>" tabindex="-1"
@@ -63,7 +65,7 @@
             </div>
           </div>
         </td>
-        <td><a href="./customers/edit/<%= customers[i].id %>" class="btn btn-secondary">Bewerken</a></td>
+        <td><a href="/portal/customers/edit/<%= customers[i].id %>" class="btn btn-secondary">Bewerken</a></td>
       </tr>
       <% } %>
 

@@ -2,9 +2,9 @@
 
 <div class="container">
   <header class="mt-5 mb-5">
-    <h3>Klant bewerken</h3>
+    <h3>Contact bewerken</h3>
   </header>
-  <form action="../edit/<%= customer[0].id %>" method="POST">
+  <form action="/portal/customers/edit/<%= customer[0].id %>" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <% if(typeof errorMessage == "undefined"){ %>
 

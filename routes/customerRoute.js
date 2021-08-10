@@ -19,5 +19,32 @@ router.post(
   isAuth,
   customerController.postEditCustomer
 );
+router.get(
+  '/portal/customers/contacts/:id',
+  isAuth,
+  customerController.getContacts
+);
+router.get(
+  '/portal/customers/contacts/:id/add',
+  isAuth,
+  customerController.getAddContacts
+);
+router.post(
+  '/portal/customers/contacts/:id/add',
+  isAuth,
+  customerController.addContacts
+);
+
+router.post(
+  '/portal/customers/contacts/:id',
+  isAuth,
+  customerController.postEditContact
+);
+
+router.get(
+  '/portal/customers/contacts/edit/:id',
+  isAuth,
+  customerController.getEditContact
+);
 
 module.exports = router;
