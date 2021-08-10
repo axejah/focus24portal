@@ -1,0 +1,80 @@
+<%- include('../../../../../includes/header.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Contact toevoegen</h3>
+  </header>
+  <form action="/portal/customers/contacts/<%= companyId %>/add" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">`
+    <input type="hidden" name="id" value="<%= companyId %>">
+    <% if(typeof errorMessage == "undefined"){ %>
+
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <h5>Algemene informatie</h5>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="voornaam">Voornaam <span style="color: red;">*</span></span>
+      <input type="text" class="form-control" placeholder="Voornaam" aria-label="voornaam" name="voornaam"
+        aria-describedby="voornaam">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="achternaam">Achternaam</span>
+      <input type="text" class="form-control" placeholder="Achternaam" aria-label="achternaam" name="achternaam"
+        aria-describedby="achternaam">
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect01">Geslacht</label>
+      <select class="form-select" id="inputGroupSelect01" name="geslacht">
+        <option value="" selected>Geslacht...</option>
+        <option value="Man">Man</option>
+        <option value="Vrouw">Vrouw</option>
+        <option value="Onbekend">Onbekend</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="telefoonnummer1">Telefoonnummer 1 <span style="color: red;">*</span></span>
+      <input type="text" class="form-control" placeholder="Telefoonnummer 1" aria-label="telefoonnummer1"
+        name="telefoonnummer1" aria-describedby="telefoonnummer1">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="telefoonnummer2">Telefoonnummer 2</span>
+      <input type="text" class="form-control" placeholder="Telefoonnummer 2" aria-label="telefoonnummer2"
+        name="telefoonnummer2" aria-describedby="telefoonnummer2">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="emailadres">E-mailadres <span style="color: red;">*</span></span>
+      <input type="email" class="form-control" placeholder="E-mailadres" aria-label="emailadres" name="emailadres"
+        aria-describedby="emailadres">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="functie">Functie</span>
+      <input type="text" class="form-control" placeholder="Functie" aria-label="functie" name="functie"
+        aria-describedby="functie">
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect02">Beslissingsbevoegd</label>
+      <select class="form-select" id="inputGroupSelect02" name="beslissingsbevoegd">
+        <option value="0" selected>Nee</option>
+        <option value="1">Ja</option>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">Opmerkingen</span>
+      <textarea class="form-control" name="remarks" aria-label="Opmerkingen"></textarea>
+    </div>
+    <div class="row" mt-3 mb-3>
+
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Opslaan</button>
+        <a href="/portal/customers/contacts/<%= companyId %>" class="btn btn-danger">Annuleren</a>
+</div>
+</div>
+</form>
+
+</div>
+
+<%- include('../../../../../includes/footer.ejs') %>
