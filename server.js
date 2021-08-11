@@ -40,9 +40,11 @@ app.use((req, res, next) => {
 const loginRoute = require('./routes/loginRoute');
 const portalRoute = require('./routes/portalRoute');
 const customerRoute = require('./routes/customerRoute');
+const ttsRoute = require('./routes/ttsRoute');
 app.use(portalRoute);
 app.use(loginRoute);
 app.use(customerRoute);
+app.use(ttsRoute);
 
 db.sequelize.sync().then((req) => {
   app.listen(PORT, () => {

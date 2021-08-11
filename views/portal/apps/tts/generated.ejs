@@ -1,0 +1,18 @@
+<%- include('../../../includes/header.ejs') %>
+
+<div class="container">
+  <h2 class="mt-5 mb-5">Text to Speech</h2>
+
+  <div class="row mb-5">
+    <audio controls>
+      <source src="<%= audio.url %>" type="audio/mp3">
+    </audio>
+  </div>
+  <div class="row">
+    <div class="col-6"><a href="<%= audio.url %>" class="btn btn-primary" target="_blank"
+        download="<%= audio.filename %>.mp3">Download MP3</a></div>
+    <div class="col-6"><a href="/portal/tts/" class="btn btn-secondary">Nog een bestand inspreken</a></div>
+  </div>
+</div>
+
+<%- include('../../../includes/footer.ejs') %>

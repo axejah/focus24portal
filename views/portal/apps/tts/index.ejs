@@ -1,0 +1,40 @@
+<%- include('../../../includes/header.ejs') %>
+
+<div class="container">
+
+  <h2 class="mt-5 mb-5">Text to Speech</h2>
+
+  <form method="POST" action="/portal/tts/generateAudio">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="input-group mb-3">
+      <span class="input-group-text">Bericht</span>
+      <textarea name="bericht" class="form-control" aria-label="In te spreken bericht" id="voiceMessage"></textarea>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="filename">Bestandsnaam</span>
+      <input name="bestandsnaam" type="text" class="form-control" aria-label="Voer bestandsnaamm in"
+        aria-describedby="filename">
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect01">Stem</label>
+      <select name="stem" class="form-select" id="inputGroupSelect01">
+        <option value="nl-NL-Wavenet-B">Mannelijk 1 (Wavenet-B)</option>
+        <option value="nl-NL-Wavenet-C">Mannelijk 2 (Wavenet-C)</option>
+        <option selected value="nl-NL-Wavenet-D">Vrouwelijk 1 (Wavenet-D)</option>
+        <option value="nl-NL-Wavenet-A">Vrouwelijk 2 (Wavenet-A)</option>
+        <option value="nl-NL-Wavenet-E">Vrouwelijk 3 (Wavenet-E)</option>
+      </select>
+    </div>
+
+    <div class="form-check form-switch">
+      <input name="useSsml" class="form-check-input" type="checkbox" id="useSSML">
+      <label class="form-check-label" for="useSSML">Use SSML ( <a
+          href="https://developers.google.com/assistant/conversational/ssml" target="_blank">read more..</a> )</label>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Generate</button>
+  </form>
+
+</div>
+
+
+<%- include('../../../includes/footer.ejs') %>
