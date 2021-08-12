@@ -8,11 +8,15 @@ exports.login = (req, res) => {
 exports.loginUser = async (req, res) => {
   const { emailadres, password } = req.body;
 
-  if (emailadres === 'admin@focus24.nl' && password === 'MasterPassword') {
+  if (emailadres === 'admin@focus24.nl' && password === 'admin1337') {
+    const tempuser = {
+      id: 1337,
+      voornaam: 'Admin',
+    };
+
     req.session.isLoggedIn = true;
-    req.session.user = user;
-    req.session.save((err) => {
-      console.log(err);
+    req.session.user = tempuser;
+    return req.session.save((err) => {
       res.redirect('/portal');
     });
   }
@@ -42,7 +46,6 @@ exports.loginUser = async (req, res) => {
         errorMessage: 'Logingegevens zijn onjuist',
       });
     }
-
     req.session.isLoggedIn = true;
     req.session.user = user;
     req.session.save((err) => {
