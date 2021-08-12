@@ -1,0 +1,52 @@
+<%- include('../../../../includes/header.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Gebruiker toevoegen</h3>
+  </header>
+  <form action="/portal/users/add" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if(typeof errorMessage == "undefined"){ %>
+
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="voornaam">Voornaam <span style="color: red;">*</span></span>
+      <input type="text" class="form-control" placeholder="Voornaam" aria-label="voornaam" name="voornaam"
+        aria-describedby="voornaam">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="achternaam">Achternaam <span style="color: red;">*</span></span>
+      <input type="text" class="form-control" placeholder="Achternaam" aria-label="Achternaam" name="achternaam"
+        aria-describedby="achternaam">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="emailadres">Emailadres <span style="color: red;">*</span></span>
+      <input type="email" class="form-control" placeholder="Emailadres" aria-label="emailadres" name="emailadres"
+        aria-describedby="emailadres">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="wachtwoord">Wachtwoord <span style="color: red;">*</span></span>
+      <input type="password" class="form-control" placeholder="Wachtwoord" aria-label="wachtwoord" name="wachtwoord"
+        aria-describedby="wachtwoord">
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="wachtwoord2">Wachtwoord <span style="color: red;">*</span></span>
+      <input type="password" class="form-control" placeholder="Wachtwoord" aria-label="wachtwoord" name="wachtwoord2"
+        aria-describedby="wachtwoord">
+    </div>
+    <div class="row" mt-3 mb-3>
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Opslaan</button>
+        <a href="../users" class="btn btn-danger">Annuleren</a>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<%- include('../../../../includes/footer.ejs') %>
