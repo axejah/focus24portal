@@ -28,3 +28,7 @@ ssmlSwitch.addEventListener('change', () => {
     voiceMessage.value = messageString.replace(new RegExp(expStr, 'gi'), '');
   }
 });
+
+function goBack() {
+  window.history.back();
+}

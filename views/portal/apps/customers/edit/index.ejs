@@ -4,6 +4,9 @@
   <header class="mt-5 mb-5">
     <h3>Contact bewerken</h3>
   </header>
+  <div class="col d-flex justify-content-end">
+    <button onclick="goBack()" class="btn btn-warning">Ga terug</button>
+  </div>
   <form action="/portal/customers/edit/<%= customer[0].id %>" method="POST">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
     <% if(typeof errorMessage == "undefined"){ %>

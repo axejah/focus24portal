@@ -8,10 +8,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item p-3">
             <form action="/logoutUser" method="POST">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <button type="submit" class="btn btn-secondary">Log Out</button>
+              <button type="submit" class="btn btn-danger">Log Out</button>
             </form>
           </li>
       </div>
