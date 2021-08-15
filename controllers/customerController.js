@@ -5,8 +5,6 @@ exports.getCustomerPage = async (req, res) => {
     const customers = await Customer.findAll({
       include: [CustomerContact],
     });
-
-    console.log(customers);
     res.render('portal/apps/customers', { customers });
   } catch (error) {
     console.log(error.message);
@@ -39,7 +37,6 @@ exports.addNewCustomer = async (req, res) => {
     if (!bedrijfsnaam || !telefoonnummer1 || !emailadres) {
       req.session.errorMessage = 'Vul alle verplichtte velden in.';
       return req.session.save((err) => {
-        console.log(err);
         res.redirect('/portal/customers/add');
       });
     }

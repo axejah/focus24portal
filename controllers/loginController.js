@@ -8,6 +8,7 @@ exports.login = (req, res) => {
 exports.loginUser = async (req, res) => {
   const { emailadres, password } = req.body;
 
+  // user for when tables are dropped. to be removed later.
   if (emailadres === 'admin@focus24.nl' && password === 'admin1337') {
     const tempuser = {
       id: 1337,
