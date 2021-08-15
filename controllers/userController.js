@@ -67,6 +67,12 @@ exports.postAddUser = async (req, res) => {
     return res.redirect('/portal/users');
   } catch (error) {
     console.log(error);
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect(`/portal/users/add`);
+    });
   }
 };
 
@@ -122,5 +128,11 @@ exports.postEditUser = async (req, res) => {
     return res.redirect('/portal/users/');
   } catch (error) {
     console.log(error);
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect(`/portal/users/edit/${id}`);
+    });
   }
 };
