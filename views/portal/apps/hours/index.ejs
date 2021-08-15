@@ -1,0 +1,49 @@
+<%- include('../../../includes/header.ejs') %>
+<%- include('../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Hour Registration</h3>
+  </header>
+  <div class="row mt-3 mb-3">
+    <div class="col">
+      <a href="/portal/hours/add/<%= user.id %>" class="btn btn-success">+ Uren loggen</a>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <a href="/portal" class="btn btn-warning">Ga terug</a>
+    </div>
+  </div>
+
+  <table class="table table-sm" id="userTable">
+    <caption>Gelogde uren</caption>
+    <thead>
+      <tr>
+        <th scope="col">Medewerker</th>
+        <th scope="col">Klant</th>
+        <th scope="col">Totaal</th>
+        <th scope="col">Startdatum</th>
+        <th scope="col">Einddatum</th>
+        <th scope="col">Facturabel</th>
+        <th scope="col">Omschrijving</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (let i = 0; i < uren.length; i++) { %>
+      <tr>
+        <td><%= uren[i].User.voornaam %> <%= uren[i].User.achternaam %></td>
+        <td><%= uren[i].Customer.bedrijfsnaam %></td>
+        <td><%= Math.floor(uren[i].total / 60) %>u <%= uren[i].total % 60 %>min</td>
+        <td><%= uren[i].period_start %></td>
+        <td><%= uren[i].period_end %></td>
+        <td><%= uren[i].invoice ? "Ja" : "Nee" %></td>
+        <td><%= uren[i].remarks %></td>
+        <th><a href="/portal/hours/edit/<%= uren[i].id %>" class="btn btn-secondary">Bewerken</a></th>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+</div>
+
+<%- include('../../../includes/footer.ejs') %>

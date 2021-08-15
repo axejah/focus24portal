@@ -13,22 +13,23 @@ if (document.getElementById('daypart') !== null) {
 const ssmlSwitch = document.getElementById('useSSML');
 const voiceMessage = document.getElementById('voiceMessage');
 
-ssmlSwitch.addEventListener('change', () => {
-  const messageString = voiceMessage.value;
+if (ssmlSwitch) {
+  ssmlSwitch.addEventListener('change', () => {
+    const messageString = voiceMessage.value;
 
-  if (ssmlSwitch.checked) {
-    if (messageString.includes('<speak>') && messageString.includes('</speak>'))
-      return;
+    if (ssmlSwitch.checked) {
+      if (
+        messageString.includes('<speak>') &&
+        messageString.includes('</speak>')
+      )
+        return;
 
-    voiceMessage.value = `<speak>${messageString}</speak>`;
-  } else if (!ssmlSwitch.checked) {
-    const removeSpeakTag = ['<speak>', '</speak>'];
+      voiceMessage.value = `<speak>${messageString}</speak>`;
+    } else if (!ssmlSwitch.checked) {
+      const removeSpeakTag = ['<speak>', '</speak>'];
 
-    const expStr = removeSpeakTag.join('|');
-    voiceMessage.value = messageString.replace(new RegExp(expStr, 'gi'), '');
-  }
-});
-
-function goBack() {
-  window.history.back();
+      const expStr = removeSpeakTag.join('|');
+      voiceMessage.value = messageString.replace(new RegExp(expStr, 'gi'), '');
+    }
+  });
 }

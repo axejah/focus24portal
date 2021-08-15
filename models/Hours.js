@@ -41,9 +41,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
     });
-  };
-
-  Hours.associate = (models) => {
     Hours.belongsTo(models.Customer, {
       foreignKey: {
         allowNull: false,

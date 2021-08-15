@@ -5,6 +5,7 @@ exports.getCustomerPage = async (req, res) => {
     const customers = await Customer.findAll({
       include: [CustomerContact],
     });
+    console.log(customers);
     res.render('portal/apps/customers', { customers });
   } catch (error) {
     console.log(error.message);
@@ -174,6 +175,12 @@ exports.addContacts = async (req, res) => {
     return res.redirect(`/portal/customers/contacts/${companyId}`);
   } catch (error) {
     console.log(error);
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect(`/portal/customers/contacts/${companyId}/add`);
+    });
   }
 };
 
@@ -233,7 +240,14 @@ exports.postEditContact = async (req, res) => {
     );
   } catch (error) {
     console.log(error);
-    return;
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect(
+        `/portal/customers/contacts/${currentContact[0].CustomerId}`
+      );
+    });
   }
 };
 

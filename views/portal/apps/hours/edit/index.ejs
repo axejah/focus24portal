@@ -1,0 +1,90 @@
+<%- include('../../../../includes/header.ejs') %>
+<%- include('../../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Uren bewerken</h3>
+  </header>
+  <form action="/portal/hours/edit/<%=uren[0].id%>" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if(typeof errorMessage == "undefined"){ %>
+
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect01">Klant <span style="color: red;">*</span></label>
+      <select class="form-select" id="inputGroupSelect01" name="klant">
+        <%
+          for ( let i = 0; i < customers.length; i++ ) {
+            let selected = customers[i].id === uren[0].CustomerId ? "selected" : "";
+        %><option value="<%=customers[i].id %>" <%=selected%>><%= customers[i].bedrijfsnaam %></option><%
+        }
+        %>
+    </select>
+</div>
+<div class="row">
+  <div class="col-6">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="uren">Uren <span style="color: red;">*</span></span>
+      <input type="number" class="form-control" placeholder="Uren" aria-label="uren" name="hours"
+        value=<%=uren[0].hours %> aria-describedby="uren">
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="minutes">Minuten <span style="color: red;">*</span></span>
+      <input type="number" class="form-control" placeholder="Minuten" aria-label="minuten" name="minutes"
+        value=<%=uren[0].minutes %> aria-describedby="minuten">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="startdatum">Startdatum <span style="color: red;">*</span></span>
+      <input type="date" class="form-control" placeholder="Startdatum" aria-label="startdatum" name="period_start"
+        value=<%=uren[0].period_start %> aria-describedby="startdatum">
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="einddatum">Einddatum <span style="color: red;">*</span></span>
+      <input type="date" class="form-control" placeholder="Einddatum" aria-label="einddatum" name="period_end"
+        value=<%=uren[0].period_end %> aria-describedby="einddatum">
+    </div>
+  </div>
+</div>
+<div class="input-group mb-3">
+  <label class="input-group-text" for="inputGroupSelect02">Factureerbaar</label>
+  <select class="form-select" id="inputGroupSelect02" name="invoice">
+    <%
+    let options2 = [["Nee", 0], ["Ja", 1]]
+    for (let i = 0; i < options2.length; i++) {
+      let selected = (uren[0].invoice) ? "selected" : "";
+    %><option value="<%=options2[i][1]%>" <%=selected %>><%= options2[i][0] %></option><%
+    }
+    %>
+  </select>
+</div>
+<div class="input-group mb-3">
+  <span class="input-group-text">Opmerkingen</span>
+  <textarea class="form-control" name="remarks" aria-label="Opmerkingen"><%=uren[0].remarks %></textarea>
+</div>
+
+<div class="row" mt-3 mb-3>
+
+  <div class="col">
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+    <a href="/portal/hours" class="btn btn-danger">Annuleren</a>
+  </div>
+</div>
+</form>
+
+</div>
+
+
+<%- include('../../../../includes/footer.ejs') %>
