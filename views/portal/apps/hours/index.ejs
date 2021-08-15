@@ -37,7 +37,7 @@
         <td><%= uren[i].period_start %></td>
         <td><%= uren[i].period_end %></td>
         <td><%= uren[i].invoice ? "Ja" : "Nee" %></td>
-        <td><%= uren[i].remarks %></td>
+        <td style="max-width: 150px"><%= uren[i].remarks %></td>
         <th><a href="/portal/hours/edit/<%= uren[i].id %>" class="btn btn-secondary">Bewerken</a></th>
       </tr>
       <% } %>
