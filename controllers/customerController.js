@@ -152,7 +152,7 @@ exports.addContacts = async (req, res) => {
     remarks,
   } = req.body;
 
-  if (!voornaam || !telefoonnummer1 || !emailadres) {
+  if (!voornaam || !telefoonnummer1 || !achternaam || !emailadres) {
     req.session.errorMessage = 'Vul alle verplichtte velden in.';
     return req.session.save((err) => {
       res.redirect(`/portal/customers/contacts/${companyId}/add`);
@@ -211,7 +211,7 @@ exports.postEditContact = async (req, res) => {
     remarks,
   } = req.body;
 
-  if (!voornaam || !telefoonnummer1 || !emailadres) {
+  if (!voornaam || !telefoonnummer1 || !achternaam || !emailadres) {
     req.session.errorMessage = 'Vul alle verplichtte velden in.';
     return req.session.save((err) => {
       res.redirect(`/portal/customers/contacts/edit/${id}`);

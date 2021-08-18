@@ -1,54 +1,54 @@
 module.exports = (sequelize, DataTypes) => {
-  const Customer = sequelize.define('Customer', {
-    bedrijfsnaam: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
+    const Customer = sequelize.define('Customer', {
+      bedrijfsnaam: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
-    },
-    kvk_nummer: {
-      type: DataTypes.INTEGER,
-    },
-    telefoonnummer1: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
+      kvk_nummer: {
+        type: DataTypes.INTEGER,
       },
-    },
-    telefoonnummer2: {
-      type: DataTypes.STRING,
-    },
-    emailadres: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
+      telefoonnummer1: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
-    },
-    straat: {
-      type: DataTypes.STRING,
-    },
-    huisnummer: {
-      type: DataTypes.STRING,
-    },
-    postcode: {
-      type: DataTypes.STRING,
-    },
-    plaats: {
-      type: DataTypes.STRING,
-    },
-  });
-
-  Customer.associate = (models) => {
-    Customer.hasMany(models.CustomerContact, {
-      onDelete: 'cascade',
+      telefoonnummer2: {
+        type: DataTypes.STRING,
+      },
+      emailadres: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      straat: {
+        type: DataTypes.STRING,
+      },
+      huisnummer: {
+        type: DataTypes.STRING,
+      },
+      postcode: {
+        type: DataTypes.STRING,
+      },
+      plaats: {
+        type: DataTypes.STRING,
+      },
     });
-    Customer.hasMany(models.Hours, {
-      onDelete: 'cascade',
-    });
+  
+    Customer.associate = (models) => {
+      Customer.hasMany(models.CustomerContact, {
+        onDelete: 'cascade',
+      });
+      Customer.hasMany(models.Hours, {
+        onDelete: 'cascade',
+      });
+    };
+  
+    return Customer;
   };
-
-  return Customer;
-};
