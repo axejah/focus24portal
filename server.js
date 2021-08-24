@@ -43,12 +43,14 @@ const customerRoute = require('./routes/customerRoute');
 const ttsRoute = require('./routes/ttsRoute');
 const userRoute = require('./routes/userRoutes');
 const hoursRoute = require('./routes/hoursRoute');
+const mailListRoute = require('./routes/mailListRoute');
 app.use(portalRoute);
 app.use(loginRoute);
 app.use(customerRoute);
 app.use(ttsRoute);
 app.use(userRoute);
 app.use(hoursRoute);
+app.use(mailListRoute);
 
 db.sequelize.sync().then((req) => {
   app.listen(PORT, () => {

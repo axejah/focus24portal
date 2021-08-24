@@ -1,0 +1,53 @@
+<%- include('../../../../includes/header.ejs') %>
+<%- include('../../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="m-5 d-flex">
+    <h3 class="m-3"><%= data.Context.Name %></h3>
+    <span class="m-3">&</span>
+    <h3 class="m-3">Aanmeldingen: <%= data.Context.ActiveMemberCount %></h3>
+  </header>
+  <div class="col d-flex justify-content-end">
+    <a href="/portal/maillist" class="btn btn-warning">Ga terug</a>
+  </div>
+  <form action="" method="POST">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if(typeof errorMessage == "undefined"){ %>
+
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <% if(typeof successMessage == "undefined"){ %> <% } else { %> <div
+      class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= successMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+      <form action="/portal/maillist/add/<%=data.Context.ID%>" method="POST">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+      <label for="telefoonnummer" class="form-label">Telefoonnummer</label>
+      <input type="text" class="form-control" id="telefoonummer" name="telefoonnummer" placeholder="06 123 456 78">
+    </div>
+    <div class="mb-3">
+      <label for="website" class="form-label">Website</label>
+      <input type="text" class="form-control" id="website" name="website" placeholder="www.frieschewebsite.nl">
+    </div>
+    <div class="mb-3">
+      <label for="bedrijfsnaam" class="form-label">Bedrijfsnaam</label>
+      <input type="text" class="form-control" id="website" name="website" placeholder="Snackbar 't Hoekje">
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
+</form>
+
+</div>
+
+<%- include('../../../../includes/footer.ejs') %>

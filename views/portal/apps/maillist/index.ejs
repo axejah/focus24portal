@@ -1,0 +1,75 @@
+<%- include('../../../includes/header.ejs') %>
+<%- include('../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>MailingLists</h3>
+  </header>
+  <div class="row mt-3 mb-3">
+    <div class="col">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        + Voeg MailList toe
+      </button>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Nieuwe MailList</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/portal/maillist/add-list/" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Naam</span>
+                  <input type="text" class="form-control" name="Name" placeholder="MailList" aria-label="MailList"
+                    aria-describedby="basic-addon1"><button class="btn btn-primary">Submit</button>
+                </div>
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <a href="/portal" class="btn btn-warning">Ga terug</a>
+    </div>
+  </div>
+
+  <table class="table table-sm" id="userTable">
+    <caption>MailingLists</caption>
+    <thead>
+      <tr>
+        <th scope="col">MailListID</th>
+        <th scope="col">Description</th>
+        <th scope="col">Aanmeldingen</th>
+        <th scope="col">Nieuwe aanmelding</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% for (let i = 0; i < mailList.length; i++) { %>
+      <tr>
+        <td>
+          <small class="text-muted"><%= mailList[i].ID %></small>
+        </td>
+        <td><%= mailList[i].Name %></td>
+        <td><%= mailList[i].ActiveMemberCount %></td>
+        <td>
+          <center><a href="/portal/maillist/add/<%=mailList[i].ID%>"><span class="material-icons">
+                person_add_alt
+              </span></a></center>
+        </td>
+      </tr>
+      <% }%>
+
+    </tbody>
+  </table>
+
+</div>
+
+<%- include('../../../includes/footer.ejs') %>
