@@ -1,0 +1,79 @@
+<%- include('../../../../includes/header.ejs') %>
+<%- include('../../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Actie bewerken</h3>
+  </header>
+  <form action="/portal/customers/actions/edit/<%=action[0].id%>" method="POST">
+
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if(typeof errorMessage == "undefined"){ %>
+
+    <% } else { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= errorMessage %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+    <input type="hidden" value="<%= user.voornaam %>" name="user">
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect02">Status</label>
+      <select class="form-select" id="inputGroupSelect02" name="status">
+        <%
+    let options2 = [["Kies een status", ""], ["Open", "Open"], ["On-Hold", "On-Hold"], ["Closed", "Closed"]]
+    for (let i = 0; i < options2.length; i++) {
+      let selected = (action[0].status) ? "selected" : "";
+    %><option value="<%=options2[i][1]%>" <%=selected %>><%= options2[i][0] %></option><%
+    }
+    %>
+      </select>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text">Actie</span>
+      <textarea name="actie" class="form-control" aria-label="Actie"
+        placeholder="E.g. telefoongesprek gevoerd, e-mail gestuurd, etc."><%= action[0].actie %></textarea>
+    </div>
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="followup_date_desc">Follow-up datum</span>
+      <input type="datetime-local" id="followup_date" class="form-control" name="follow_up" aria-label="follow-up"
+        aria-describedby="followup_date_desc" value="<%=action[0].follow_up%>"">
+    </div>
+
+      <div class=" row" mt-3 mb-3>
+
+      <div class="col">
+        <button type="submit" class="btn btn-primary">Opslaan</button>
+        <a href="/portal/customers/actions/" class="btn btn-danger">Annuleren</a>
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-3 mb-3">
+    <a class=" btn btn-danger m-5" data-bs-toggle="modal" data-bs-target="#deleteModal">Verwijder actie</a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Actie verwijderen</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Weet je zeker dat je deze actie wilt verwijderen?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form action="/portal/customers/actions/delete/<%=action[0].id%>" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn btn-danger">Verwijderen</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../../../../includes/footer.ejs') %>

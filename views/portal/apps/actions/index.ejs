@@ -1,0 +1,58 @@
+<%- include('../../../includes/header.ejs') %>
+<%- include('../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Actieoverzicht</h3>
+  </header>
+  <div class="row mt-3 mb-3">
+    <div class="col d-flex justify-content-end">
+      <a href="/portal" class="btn btn-warning">Ga terug</a>
+    </div>
+  </div>
+
+  <div class="m-3">
+    <a href="/portal/customers/actions/all">All
+      (<%= counters.openCount + counters.holdCount + counters.closedCount %>)</a> - <a
+      href="/portal/customers/actions/open">Open
+      (<%= counters.openCount %>)</a> - <a href="/portal/customers/actions/hold">On-Hold (<%= counters.holdCount %>)</a>
+    - <a href="/portal/customers/actions/closed">Closed (<%= counters.closedCount %>)</a>
+  </div>
+  <table class="table" id="customerTable">
+
+    <thead>
+      <tr>
+        <th scope="col">Owner</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actie</th>
+        <th scope="col">Bedrijfsnaam</th>
+        <th scope="col">Contactpersoon</th>
+        <th scope="col">Follow-up</th>
+        <th scope="col">Bewerken</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if(actions.length < 1){ %>
+      <h5 class="mb-5 mt-5">No actions present yet..</h5>
+      <% } else { %>
+      <% for (let i = 0; i < actions.length; i++) { %>
+      <tr>
+        <td><%=actions[i].user%></td>
+        <td><%=actions[i].status%></td>
+        <td><%=actions[i].actie%></td>
+        <td><%=actions[i].CustomerContact.bedrijfsnaam%></td>
+        <td><%=actions[i].CustomerContact.voornaam%>
+          <%=actions[i].CustomerContact.achternaam%>
+        </td>
+        <% const date = new Date(actions[i].follow_up) %>
+        <td><%=date.toLocaleString('nl-NL')%></td>
+        <td><a href="/portal/customers/actions/edit/<%=actions[i].id%>" title="Actie bewerken"><i
+              class="large material-icons">edit</i></a>
+        </td>
+      </tr>
+      <%} }%>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../../../includes/footer.ejs') %>
