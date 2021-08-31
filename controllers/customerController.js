@@ -1,11 +1,20 @@
-const { Customer, CustomerContact } = require('../models');
+const {
+  Customer,
+  CustomerContact,
+  CustomerContactAction,
+} = require('../models');
 
 exports.getCustomerPage = async (req, res) => {
   try {
     const customers = await Customer.findAll({
-      include: [CustomerContact],
+      include: { all: true },
     });
-    console.log(customers);
+
+    const contacts = await CustomerContact.findAll({
+      include: [{ all: true }],
+    });
+
+    console.log(contacts);
     res.render('portal/apps/customers', { customers });
   } catch (error) {
     console.log(error.message);
@@ -128,9 +137,10 @@ exports.postEditCustomer = async (req, res) => {
   }
 };
 
-exports.getAddContacts = (req, res) => {
+exports.getAddContacts = async (req, res) => {
   const companyId = req.params.id;
   const errorMessage = req.session.errorMessage;
+
   delete req.session.errorMessage;
   res.render('portal/apps/customers/contacts/add', {
     errorMessage,
@@ -140,6 +150,7 @@ exports.getAddContacts = (req, res) => {
 
 exports.addContacts = async (req, res) => {
   const companyId = req.params.id;
+
   const {
     voornaam,
     achternaam,
@@ -160,6 +171,11 @@ exports.addContacts = async (req, res) => {
   }
 
   try {
+    const searchCompanyName = await Customer.findAll({
+      where: { id: companyId },
+      attributes: ['bedrijfsnaam'],
+    });
+
     await CustomerContact.create({
       voornaam,
       achternaam,
@@ -170,6 +186,7 @@ exports.addContacts = async (req, res) => {
       functie,
       beslissingsbevoegd,
       remarks,
+      bedrijfsnaam: searchCompanyName[0].dataValues.bedrijfsnaam,
       CustomerId: companyId,
     });
     return res.redirect(`/portal/customers/contacts/${companyId}`);
@@ -190,6 +207,7 @@ exports.getContacts = async (req, res) => {
   try {
     const contact = await CustomerContact.findAll({
       where: { CustomerId: companyId },
+      include: [{ all: true }],
     });
     return res.render('portal/apps/customers/contacts', { contact, companyId });
   } catch (error) {
@@ -221,6 +239,11 @@ exports.postEditContact = async (req, res) => {
   try {
     const currentContact = await CustomerContact.findAll({ where: { id: id } });
 
+    const searchCompanyName = await Customer.findAll({
+      where: { id: currentContact[0].CustomerId },
+      attributes: ['bedrijfsnaam'],
+    });
+
     await CustomerContact.update(
       {
         voornaam,
@@ -232,6 +255,7 @@ exports.postEditContact = async (req, res) => {
         functie,
         beslissingsbevoegd,
         remarks,
+        bedrijfsnaam: searchCompanyName[0].dataValues.bedrijfsnaam,
       },
       { where: { id: id } }
     );
@@ -264,5 +288,246 @@ exports.getEditContact = async (req, res) => {
     });
   } catch (error) {
     if (error) console.log(error);
+  }
+};
+
+exports.addCustomerContactAction = async (req, res) => {
+  const { actie, status, user, follow_up } = req.body;
+  const CustomerContactId = req.body.customerContactId;
+  const customerId = req.body.customerId;
+  const iso = new Date().toISOString();
+  const datum = iso.substring(0, iso.length - 8);
+
+  try {
+    const action = await CustomerContactAction.create({
+      actie,
+      status,
+      user,
+      follow_up,
+      datum,
+      CustomerContactId,
+    });
+    return res.redirect(`/portal/customers/contacts/${customerId}`);
+  } catch (error) {
+    if (error) console.log(error);
+  }
+};
+
+exports.getActionsPage = async (req, res) => {
+  try {
+    const actions = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+    });
+
+    const openCount = actions.reduce((counter, obj) => {
+      if (obj.status === 'Open') counter += 1;
+      return counter;
+    }, 0);
+
+    const closedCount = actions.reduce((counter, obj) => {
+      if (obj.status === 'Closed') counter += 1;
+      return counter;
+    }, 0);
+
+    const holdCount = actions.reduce((counter, obj) => {
+      if (obj.status === 'On-Hold') counter += 1;
+      return counter;
+    }, 0);
+
+    const counters = {
+      openCount,
+      closedCount,
+      holdCount,
+    };
+
+    return res.render('portal/apps/actions/', {
+      actions,
+      counters,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getOpenActionsPage = async (req, res) => {
+  try {
+    const actions = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+      where: { status: 'Open' },
+    });
+
+    const actionsInfo = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+    });
+
+    const openCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'Open') counter += 1;
+      return counter;
+    }, 0);
+
+    const closedCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'Closed') counter += 1;
+      return counter;
+    }, 0);
+
+    const holdCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'On-Hold') counter += 1;
+      return counter;
+    }, 0);
+
+    const counters = {
+      openCount,
+      closedCount,
+      holdCount,
+    };
+
+    return res.render('portal/apps/actions/', { actions, counters });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getClosedActionsPage = async (req, res) => {
+  try {
+    const actions = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+      where: { status: 'Closed' },
+    });
+
+    const actionsInfo = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+    });
+
+    const openCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'Open') counter += 1;
+      return counter;
+    }, 0);
+
+    const closedCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'Closed') counter += 1;
+      return counter;
+    }, 0);
+
+    const holdCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'On-Hold') counter += 1;
+      return counter;
+    }, 0);
+
+    const counters = {
+      openCount,
+      closedCount,
+      holdCount,
+    };
+
+    return res.render('portal/apps/actions/', { actions, counters });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getHoldActionsPage = async (req, res) => {
+  try {
+    const actions = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+      where: { status: 'On-Hold' },
+    });
+
+    const actionsInfo = await CustomerContactAction.findAll({
+      include: [{ all: true }],
+    });
+
+    const openCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'Open') counter += 1;
+      return counter;
+    }, 0);
+
+    const closedCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'Closed') counter += 1;
+      return counter;
+    }, 0);
+
+    const holdCount = actionsInfo.reduce((counter, obj) => {
+      if (obj.status === 'On-Hold') counter += 1;
+      return counter;
+    }, 0);
+
+    const counters = {
+      openCount,
+      closedCount,
+      holdCount,
+    };
+
+    return res.render('portal/apps/actions/', { actions, counters });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.editAction = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const errorMessage = req.session.errorMessage;
+    delete req.session.errorMessage;
+    const action = await CustomerContactAction.findAll({ where: { id: id } });
+    res.render('portal/apps/actions/edit', { action, errorMessage });
+  } catch (error) {
+    if (error) console.log(error);
+  }
+};
+
+exports.postEditAction = async (req, res) => {
+  const id = req.params.id;
+
+  const { status, actie, follow_up, user } = req.body;
+
+  if (!status || !actie || !follow_up || !user) {
+    req.session.errorMessage = 'Vul alle verplichtte velden in.';
+    return req.session.save((err) => {
+      res.redirect(`/portal/customers/actions/edit/${id}`);
+    });
+  }
+
+  try {
+    await CustomerContactAction.update(
+      {
+        status,
+        actie,
+        follow_up,
+        user,
+      },
+      { where: { id: id } }
+    );
+    return res.redirect(`/portal/customers/actions/all`);
+  } catch (error) {
+    console.log(error);
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect(`/portal/customers/contacts/actions/edit/${id}`);
+    });
+  }
+};
+
+exports.deleteAction = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    await CustomerContactAction.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    return res.redirect('/portal/customers/actions/all');
+  } catch (error) {
+    console.log(error);
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect(`/portal/customers/actions/all`);
+    });
   }
 };

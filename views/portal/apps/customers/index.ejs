@@ -24,8 +24,7 @@
       <tr>
         <th scope="col">CompanyID</th>
         <th scope="col">Bedrijfsnaam</th>
-        <th scope="col">KvK-nummer</th>
-        <th scope="col">Emailadres</th>
+        <th scope="col">Contactpersonen</th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -36,11 +35,11 @@
       <tr>
         <th scope="row"><%= customers[i].id %></th>
         <td><%= customers[i].bedrijfsnaam %></td>
-        <td><%= customers[i].kvk_nummer %></td>
-        <td><%= customers[i].emailadres %></td>
-        <td><a href="/portal/customers/contacts/<%= customers[i].id %>"><i class="material-icons">contacts</i></a></td>
+        <td><%= customers[i].CustomerContacts.length %></td>
+        <td><a href="/portal/customers/contacts/<%= customers[i].id %>"> <i class="material-icons">contacts</i></a>
+        </td>
         <td><a href="#" data-bs-toggle="modal" data-bs-target="#detailModal_<%= customers[i].id %>"
-            aria-label="Details" ><i class="material-icons">info_outline</i></a>
+            aria-label="Details"><i class="material-icons">info_outline</i></a>
           <div class="modal fade" id="detailModal_<%= customers[i].id %>" tabindex="-1"
             aria-labelledby="detailModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -74,7 +73,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  
+
                   <button type="button" data-bs-dismiss="modal" class="btn btn-secondary">Close</button>
                 </div>
               </div>
@@ -95,8 +94,6 @@
       filter = input.value.toUpperCase();
       table = document.getElementById("customerTable");
       tr = table.getElementsByTagName("tr");
-
-
       for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[0];
         if (td) {

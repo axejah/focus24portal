@@ -91,4 +91,27 @@ body {
   /* Add a grey background color to the table header and on hover */
   background-color: #f1f1f1;
 }
+
+.cell-1 {
+  border-collapse: separate;
+  border-spacing: 0 4em;
+  border-bottom: 5px solid transparent;
+  background-clip: padding-box;
+  cursor: pointer;
+}
+
+.transition {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.card-cp {
+  position: relative;
+}
+
+.icon-cp {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
 /*# sourceMappingURL=styles.css.map */
