@@ -47,4 +47,51 @@ router.get(
   customerController.getEditContact
 );
 
+router.post(
+  '/portal/customers/contacts/add/action',
+  isAuth,
+  customerController.addCustomerContactAction
+);
+
+router.get(
+  '/portal/customers/actions/all',
+  isAuth,
+  customerController.getActionsPage
+);
+
+router.get(
+  '/portal/customers/actions/open',
+  isAuth,
+  customerController.getOpenActionsPage
+);
+
+router.get(
+  '/portal/customers/actions/closed',
+  isAuth,
+  customerController.getClosedActionsPage
+);
+
+router.get(
+  '/portal/customers/actions/hold',
+  isAuth,
+  customerController.getHoldActionsPage
+);
+
+router.get(
+  '/portal/customers/actions/edit/:id',
+  isAuth,
+  customerController.editAction
+);
+
+router.post(
+  '/portal/customers/actions/edit/:id',
+  isAuth,
+  customerController.postEditAction
+);
+
+router.post(
+  '/portal/customers/actions/delete/:id',
+  isAuth,
+  customerController.deleteAction
+);
 module.exports = router;

@@ -7,39 +7,23 @@
   </header>
   <div class="row" mt-3 mb-3>
     <div class="col">
-      <a href="/portal/customers/contacts/<%= companyId %>/add" class="btn btn-primary">+ Contact toevoegen</a>
+      <a href="/portal/customers/contacts/<%= companyId %>/add" class="btn btn-success">+ Contactpersoon toevoegen</a>
     </div>
     <div class="col d-flex justify-content-end">
       <a href="/portal/customers" class="btn btn-warning">Terug naar klantenoverzicht</a>
     </div>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ContactID</th>
-        <th scope="col">Voornaam</th>
-        <th scope="col">Achternaam</th>
-        <th scope="col">Telefoonnummer</th>
-        <th scope="col">Telefoonnummer 2</th>
-        <th scope="col">E-mailadres</th>
-        <th scope="col">Details</th>
-        <th scope="col">Bewerken</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if(contact.length < 1){ %>
-      <h5 class="mb-5 mt-5">No contacts for this customer yet..</h5>
-      <% } else { %>
-      <% for (let i = 0; i <contact.length; i++) { %>
-      <tr>
-        <th scope=" row"><%= contact[i].id %></th>
-        <td><%= contact[i].voornaam %></td>
-        <td><%= contact[i].achternaam %></td>
-        <td><%= contact[i].telefoonnummer1 %></td>
-        <td><%= contact[i].telefoonnummer2 %></td>
-        <td><%= contact[i].emailadres %></td>
-        <td><a href="#" data-bs-toggle="modal" data-bs-target="#detailModal_<%=contact[i].id %>"
-           ><i class="material-icons">info_outline</i></a>
+
+  <div class="mt-5 row row-cols-1 row-cols-md-3 g-6">
+    <% if(contact.length < 1){ %>
+    <h5 class="mb-5 mt-5">No contacts for this customer yet..</h5>
+    <% } else { %>
+    <% for (let i = 0; i <contact.length; i++) { %>
+    <div class="col">
+      <div class="card card-cp">
+        <img src="/assets/img/unknown_person.png" class="card-img-top" alt="contactpersoon">
+        <div class="card-body">
+          <h5 class="card-title"><%=contact[i].voornaam %> <%=contact[i].achternaam %>`</h5>
           <div class="modal fade" id="detailModal_<%=contact[i].id %>" tabindex="-1" aria-labelledby="detailModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -50,19 +34,17 @@
                 </div>
                 <div class="modal-body">
                   <div class="row">
-                    <div class="col-6">
-                      <h5>Algemene gegevens</h5>
-                      <span>Voornaam: <%=contact[i].voornaam %></span><br />
-                      <span>Achternaam: <%=contact[i].achternaam %></span><br />
-                      <span>Geslacht: <%=contact[i].geslacht %></span><br />
-                      <span>Telefoonnummer 1: <%=contact[i].telefoonnummer1 %></span><br />
-                      <span>Telefoonnummer 2: <%=contact[i].telefoonnummer2 %></span><br />
-                      <span>Emailadres: <%=contact[i].emailadres %></span><br />
-                      <br />
-                      <span>Functie: <%=contact[i].functie %></span><br />
-                      <span>Beslissingsbevoegd: <%=contact[i].beslissingsbevoegd %></span><br />
-                      <span>Opmerkingen:<br /> <%=contact[i].remarks %></span><br />
-                    </div>
+                    <h5>Algemene gegevens</h5>
+                    <span>Voornaam: <%=contact[i].voornaam %></span><br />
+                    <span>Achternaam: <%=contact[i].achternaam %></span><br />
+                    <span>Geslacht: <%=contact[i].geslacht %></span><br />
+                    <span>Telefoonnummer 1: <%=contact[i].telefoonnummer1 %></span><br />
+                    <span>Telefoonnummer 2: <%=contact[i].telefoonnummer2 %></span><br />
+                    <span>Emailadres: <%=contact[i].emailadres %></span><br />
+                    <br />
+                    <span>Functie: <%=contact[i].functie %></span><br />
+                    <span>Beslissingsbevoegd: <%=contact[i].beslissingsbevoegd %></span><br />
+                    <span>Opmerkingen:<br /> <%=contact[i].remarks %></span><br />
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -71,14 +53,146 @@
               </div>
             </div>
           </div>
-        </td>
-        <td><a href="/portal/customers/contacts/edit/<%=contact[i].id %>"><i class="material-icons">edit</i></a></td>
-      </tr>
-      <% } } %>
 
-    </tbody>
-  </table>
+          <div class="modal fade" id="actionModal_<%=contact[i].id %>" tabindex="-1" aria-labelledby="actionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="actionModalLabel">Actie toevoegen</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="/portal/customers/contacts/add/action" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" value="<%= user.voornaam %>" name="user">
+                    <input type="hidden" value="<%=contact[i].id %>" name="customerContactId" />
+                    <input type="hidden" value="<%=contact[i].CustomerId %>" name="customerId" />
+                    <div class="input-group mb-3">
+                      <label class="input-group-text" for="status">Status</label>
+                      <select class="form-select" id="status" name="status">
+                        <option value="" selected>Kies een status</option>
+                        <option value="Open">Open</option>
+                        <option value="On-Hold">On-Hold</option>
+                        <option value="Closed">Closed</option>
+                      </select>
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text">Actie</span>
+                      <textarea name="actie" class="form-control" aria-label="Actie"
+                        placeholder="E.g. telefoongesprek gevoerd, e-mail gestuurd, etc."></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                      <span class="input-group-text" id="followup_date_desc">Follow-up datum</span>
+                      <input type="datetime-local" id="followup_date" class="form-control" name="follow_up"
+                        placeholder="Voer een datum en tijd in" aria-label="follow-up"
+                        aria-describedby="followup_date_desc">
+                    </div>
 
-</div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Actie toevoegen</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <p class="text-muted"> <%=contact[i].Customer.bedrijfsnaam %> - <%=contact[i].functie %></p>
+          <div class=" card-text">
+            <% if(contact[i].CustomerContactActions.length < 1){ %>
+            <small class="text-muted">No actions for this contact yet..</small>
+            <% } else { %>
+            <div>Laatste status: <%= contact[i].CustomerContactActions[0].status %></div>
+            <div>Laatste actie: <%= contact[i].CustomerContactActions[0].actie %></div>
+            <% const date = new Date(contact[i].CustomerContactActions[0].follow_up) %>
+            <div>Opvolgdatum: <%= date.toLocaleString('nl-NL') %></div>
 
-<%- include('../../../../includes/footer.ejs') %>
+
+            <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal"
+              data-bs-target="#actionOverviewModal_<%=contact[i].id %>">
+              Actieoverzicht
+            </button>
+
+            <div class="modal fade" id="actionOverviewModal_<%=contact[i].id %>" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Actieoverzicht <%= contact[i].voornaam %>
+                      <%= contact[i].achternaam %> </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <table class="table" id="customerTable">
+
+                      <thead>
+                        <tr>
+                          <th scope="col">Aangemaakt</th>
+                          <th scope="col">Owner</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">Actie</th>
+                          <th scope="col">Follow-up</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for (let x = 0; x < contact[i].CustomerContactActions.length; x++) { %>
+                        <tr>
+                          <% const created = new Date(contact[i].CustomerContactActions[x].dataValues.createdAt) %>
+                          <td><%= created.toLocaleString('nl-NL') %></td>
+                          <td><%=contact[i].CustomerContactActions[x].dataValues.user%></td>
+                          <td><%=contact[i].CustomerContactActions[x].dataValues.status%></td>
+                          <td><%=contact[i].CustomerContactActions[x].dataValues.actie%></td>
+                          <% const date = new Date(contact[i].CustomerContactActions[x].dataValues.follow_up) %>
+                          <td><%=date.toLocaleString('nl-NL')%></td>
+                          <td><a
+                              href="/portal/customers/actions/edit/<%=contact[i].CustomerContactActions[x].dataValues.id%>"
+                              title="Actie bewerken"><i class="large material-icons">edit</i></a>
+                          </td>
+                        </tr>
+                        <%}%>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <small class="text-muted">Laatste actie door <%= contact[i].CustomerContactActions[0].user %> op
+                        <% const date2 = new Date(contact[i].CustomerContactActions[0].updatedAt) %>
+                        <%= date2.toLocaleString('nl-NL') %>
+                        </small>
+
+                  </div>
+                  <%}%>
+          </div>
+          <div class="icon-cp"><a href="#" title="Details tonen" data-bs-toggle="modal"
+              data-bs-target="#detailModal_<%=contact[i].id %>"><i class="material-icons">info_outline</i></a> <a
+                    href="/portal/customers/contacts/edit/<%=contact[i].id %>" title="Contactpersoon bewerken"><i
+                      class="large material-icons">edit</i></a> <a href="#" data-bs-toggle="modal"
+                    data-bs-target="#actionModal_<%=contact[i].id %>" title="Actie toevoegen"><i
+                      class="large material-icons">add_circle</i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } } %>
+        </div>
+
+      </div>
+      <script>
+        // Set min date field
+        const dateField = document.getElementById('followup_date');
+        const iso = new Date().toISOString();
+        const minDate = iso.substring(0, iso.length - 8);
+        dateField.min = minDate;
+      </script>
+
+      <%- include('../../../../includes/footer.ejs') %>
