@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     follow_up: {
       type: DataTypes.DATE,
     },
+    follow_up_time: {
+      type: DataTypes.STRING,
+    },
     user: {
       type: DataTypes.STRING,
     },

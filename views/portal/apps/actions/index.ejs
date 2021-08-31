@@ -45,7 +45,7 @@
           <%=actions[i].CustomerContact.achternaam%>
         </td>
         <% const date = new Date(actions[i].follow_up) %>
-        <td><%=date.toLocaleString('nl-NL')%></td>
+        <td><%=date.toLocaleString('nl-NL').slice(0, -8)%> <%=actions[i].follow_up_time %></td>
         <td><a href="/portal/customers/actions/edit/<%=actions[i].id%>" title="Actie bewerken"><i
               class="large material-icons">edit</i></a>
         </td>

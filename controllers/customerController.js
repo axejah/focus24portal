@@ -292,7 +292,7 @@ exports.getEditContact = async (req, res) => {
 };
 
 exports.addCustomerContactAction = async (req, res) => {
-  const { actie, status, user, follow_up } = req.body;
+  const { actie, status, user, follow_up, follow_up_time } = req.body;
   const CustomerContactId = req.body.customerContactId;
   const customerId = req.body.customerId;
   const iso = new Date().toISOString();
@@ -304,6 +304,7 @@ exports.addCustomerContactAction = async (req, res) => {
       status,
       user,
       follow_up,
+      follow_up_time,
       datum,
       CustomerContactId,
     });
@@ -479,7 +480,7 @@ exports.editAction = async (req, res) => {
 exports.postEditAction = async (req, res) => {
   const id = req.params.id;
 
-  const { status, actie, follow_up, user } = req.body;
+  const { status, actie, follow_up, follow_up_time, user } = req.body;
 
   if (!status || !actie || !follow_up || !user) {
     req.session.errorMessage = 'Vul alle verplichtte velden in.';
@@ -495,6 +496,7 @@ exports.postEditAction = async (req, res) => {
         actie,
         follow_up,
         user,
+        follow_up_time,
       },
       { where: { id: id } }
     );

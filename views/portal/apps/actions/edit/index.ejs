@@ -23,7 +23,7 @@
         <%
     let options2 = [["Kies een status", ""], ["Open", "Open"], ["On-Hold", "On-Hold"], ["Closed", "Closed"]]
     for (let i = 0; i < options2.length; i++) {
-      let selected = (action[0].status) ? "selected" : "";
+      let selected = (action[0].status === options2[i][0]) ? "selected" : "";
     %><option value="<%=options2[i][1]%>" <%=selected %>><%= options2[i][0] %></option><%
     }
     %>
@@ -36,15 +36,17 @@
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" id="followup_date_desc">Follow-up datum</span>
-      <input type="datetime-local" id="followup_date" class="form-control" name="follow_up" aria-label="follow-up"
-        aria-describedby="followup_date_desc" value="<%=action[0].follow_up%>"">
+      <input type="date" id="followup_date" class="form-control" name="follow_up" aria-label="follow-up"
+        aria-describedby="followup_date_desc" value="<%= action[0].follow_up %>">
+      <input type="time" class="form-control" placeholder="tijdstip" name="follow_up_time" aria-label="tijdstip"
+        value="<%= action[0].follow_up_time %>">
     </div>
 
-      <div class=" row" mt-3 mb-3>
+    <div class=" row" mt-3 mb-3>
 
       <div class="col">
         <button type="submit" class="btn btn-primary">Opslaan</button>
-        <a href="/portal/customers/actions/" class="btn btn-danger">Annuleren</a>
+        <a href="/portal/customers/actions/all" class="btn btn-danger">Annuleren</a>
       </div>
     </div>
   </form>
@@ -75,5 +77,9 @@
     </div>
   </div>
 </div>
+
+<script>
+
+</script>
 
 <%- include('../../../../includes/footer.ejs') %>

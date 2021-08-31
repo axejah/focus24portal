@@ -23,7 +23,7 @@
       <div class="card card-cp">
         <img src="/assets/img/unknown_person.png" class="card-img-top" alt="contactpersoon">
         <div class="card-body">
-          <h5 class="card-title"><%=contact[i].voornaam %> <%=contact[i].achternaam %>`</h5>
+          <h5 class="card-title"><%=contact[i].voornaam %> <%=contact[i].achternaam %></h5>
           <div class="modal fade" id="detailModal_<%=contact[i].id %>" tabindex="-1" aria-labelledby="detailModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -84,9 +84,11 @@
                     </div>
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="followup_date_desc">Follow-up datum</span>
-                      <input type="datetime-local" id="followup_date" class="form-control" name="follow_up"
+                      <input type="date" id="followup_date" class="form-control" name="follow_up"
                         placeholder="Voer een datum en tijd in" aria-label="follow-up"
                         aria-describedby="followup_date_desc">
+                      <input type="time" class="form-control" placeholder="tijdstip" name="follow_up_time"
+                        aria-label="time">
                     </div>
 
                 </div>
@@ -106,7 +108,8 @@
             <div>Laatste status: <%= contact[i].CustomerContactActions[0].status %></div>
             <div>Laatste actie: <%= contact[i].CustomerContactActions[0].actie %></div>
             <% const date = new Date(contact[i].CustomerContactActions[0].follow_up) %>
-            <div>Opvolgdatum: <%= date.toLocaleString('nl-NL') %></div>
+            <div>Opvolging: <%= date.toLocaleString('nl-NL').slice(0, -8) %>
+              <%=contact[i].CustomerContactActions[0].follow_up_time %></div>
 
 
             <button type="button" class="btn btn-primary m-3" data-bs-toggle="modal"
@@ -147,7 +150,8 @@
                           <td><%=contact[i].CustomerContactActions[x].dataValues.status%></td>
                           <td><%=contact[i].CustomerContactActions[x].dataValues.actie%></td>
                           <% const date = new Date(contact[i].CustomerContactActions[x].dataValues.follow_up) %>
-                          <td><%=date.toLocaleString('nl-NL')%></td>
+                          <td><%=date.toLocaleString('nl-NL').slice(0, -8) %> <%=
+                            contact[i].CustomerContactActions[x].dataValues.follow_up_time %></td>
                           <td><a
                               href="/portal/customers/actions/edit/<%=contact[i].CustomerContactActions[x].dataValues.id%>"
                               title="Actie bewerken"><i class="large material-icons">edit</i></a>
