@@ -2,6 +2,7 @@ const {
   Customer,
   CustomerContact,
   CustomerContactAction,
+  User,
 } = require('../models');
 
 exports.getCustomerPage = async (req, res) => {
@@ -14,7 +15,6 @@ exports.getCustomerPage = async (req, res) => {
       include: [{ all: true }],
     });
 
-    console.log(contacts);
     res.render('portal/apps/customers', { customers });
   } catch (error) {
     console.log(error.message);
@@ -62,7 +62,7 @@ exports.addNewCustomer = async (req, res) => {
       postcode,
       plaats,
     });
-
+    console.log(customer);
     res.redirect('/portal/customers');
   } catch (error) {
     console.log(error);
@@ -299,14 +299,30 @@ exports.addCustomerContactAction = async (req, res) => {
   const datum = iso.substring(0, iso.length - 8);
 
   try {
+    let actionObj;
+
+    if (!follow_up) {
+      actionObj = {
+        actie,
+        status,
+        user,
+        datum,
+        CustomerContactId,
+      };
+    } else {
+      actionObj = {
+        actie,
+        status,
+        user,
+        follow_up,
+        follow_up_time,
+        datum,
+        CustomerContactId,
+      };
+    }
+
     const action = await CustomerContactAction.create({
-      actie,
-      status,
-      user,
-      follow_up,
-      follow_up_time,
-      datum,
-      CustomerContactId,
+      actionObj,
     });
     return res.redirect(`/portal/customers/contacts/${customerId}`);
   } catch (error) {
@@ -532,4 +548,208 @@ exports.deleteAction = async (req, res) => {
       res.redirect(`/portal/customers/actions/all`);
     });
   }
+};
+
+exports.getWizard = async (req, res) => {
+  const errorMessage = req.session.errorMessage;
+
+  delete req.session.errorMessage;
+  res.render('portal/apps/customers/wizard', {
+    errorMessage,
+  });
+};
+
+exports.postWizard = async (req, res) => {
+  const {
+    bedrijfsnaam,
+    kvk_nummer,
+    telefoonnummer1,
+    telefoonnummer2,
+    email_comp,
+    straat,
+    huisnummer,
+    postcode,
+    plaats,
+    voornaam,
+    achternaam,
+    geslacht,
+    telefoonnummer1_cp,
+    telefoonnummer2_cp,
+    emailadres,
+    functie,
+    beslissingsbevoegd,
+    remarks,
+  } = req.body;
+
+  try {
+    if (!bedrijfsnaam || !telefoonnummer1 || !email_comp) {
+      req.session.errorMessage = 'Vul alle verplichtte velden in.';
+      return req.session.save((err) => {
+        res.redirect('/portal/customers/wizard');
+      });
+    }
+
+    const newCustomer = await Customer.create({
+      bedrijfsnaam,
+      kvk_nummer: parseInt(kvk_nummer),
+      telefoonnummer1,
+      telefoonnummer2,
+      emailadres: email_comp,
+      straat,
+      huisnummer,
+      postcode,
+      plaats,
+    });
+
+    const companyId = newCustomer.id;
+
+    await CustomerContact.create({
+      voornaam,
+      achternaam,
+      geslacht,
+      emailadres,
+      telefoonnummer1: telefoonnummer1_cp,
+      telefoonnummer2: telefoonnummer2_cp,
+      functie,
+      beslissingsbevoegd,
+      remarks,
+      bedrijfsnaam,
+      CustomerId: companyId,
+    });
+
+    res.redirect(`/portal/customers/contacts/${companyId}`);
+  } catch (error) {
+    console.log(error);
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      console.log(err);
+      res.redirect('/portal/customers/wizard');
+    });
+  }
+};
+
+exports.getActionWizard = async (req, res) => {
+  const errorMessage = req.session.errorMessage;
+
+  delete req.session.errorMessage;
+  res.render('portal/apps/customers/wizard/actie', {
+    errorMessage,
+  });
+};
+
+exports.postActionWizard = async (req, res) => {
+  const {
+    bedrijfsnaam,
+    kvk_nummer,
+    telefoonnummer1,
+    telefoonnummer2,
+    email_comp,
+    straat,
+    huisnummer,
+    postcode,
+    plaats,
+    voornaam,
+    achternaam,
+    geslacht,
+    telefoonnummer1_cp,
+    telefoonnummer2_cp,
+    emailadres,
+    functie,
+    beslissingsbevoegd,
+    remarks,
+    status,
+    actie,
+    follow_up,
+    follow_up_time,
+    owner,
+    actie_switch,
+  } = req.body;
+
+  try {
+    if (!bedrijfsnaam || !telefoonnummer1 || !email_comp) {
+      req.session.errorMessage = 'Vul alle verplichtte velden in.';
+      return req.session.save((err) => {
+        res.redirect('/portal/customers/wizard/actie');
+      });
+    }
+
+    const newCustomer = await Customer.create({
+      bedrijfsnaam,
+      kvk_nummer: parseInt(kvk_nummer),
+      telefoonnummer1,
+      telefoonnummer2,
+      emailadres: email_comp,
+      straat,
+      huisnummer,
+      postcode,
+      plaats,
+    });
+
+    const companyId = newCustomer.id;
+
+    const newCustomerContact = await CustomerContact.create({
+      voornaam,
+      achternaam,
+      geslacht,
+      emailadres,
+      telefoonnummer1: telefoonnummer1_cp,
+      telefoonnummer2: telefoonnummer2_cp,
+      functie,
+      beslissingsbevoegd,
+      remarks,
+      bedrijfsnaam,
+      CustomerId: companyId,
+    });
+
+    const contactId = newCustomerContact.id;
+    const iso = new Date().toISOString();
+    const datum = iso.substring(0, iso.length - 8);
+
+    if (actie_switch === 'on') {
+      let actionFieldObj;
+      if (!follow_up) {
+        actionFieldObj = {
+          actie,
+          status,
+          user: owner,
+          datum,
+          CustomerContactId: contactId,
+        };
+      } else {
+        actionFieldObj = {
+          actie,
+          status,
+          user: owner,
+          follow_up,
+          follow_up_time,
+          datum,
+          CustomerContactId: contactId,
+        };
+      }
+
+      await CustomerContactAction.create(actionFieldObj);
+    }
+    res.redirect(`/portal/customers/contacts/${companyId}`);
+  } catch (error) {
+    req.session.errorMessage =
+      'Er gaat iets fout. Neem contact op met de beheerder 🤓';
+    req.session.save((err) => {
+      res.redirect('/portal/customers/wizard/actie');
+    });
+  }
+};
+
+exports.getActionWizard = async (req, res) => {
+  const errorMessage = req.session.errorMessage;
+
+  const owners = await User.findAll({
+    attributes: ['voornaam'],
+  });
+
+  delete req.session.errorMessage;
+  res.render('portal/apps/customers/wizard/actie', {
+    errorMessage,
+    owners,
+  });
 };

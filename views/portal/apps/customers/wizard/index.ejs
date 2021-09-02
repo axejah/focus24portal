@@ -1,0 +1,232 @@
+<%- include('../../../../includes/header.ejs') %>
+<%- include('../../../../includes/navigation.ejs') %>
+
+<div class="container">
+  <header class="mt-5 mb-5">
+    <h3>Bedrijven Wizard</h3>
+    <a href="../customers" class="btn btn-danger">Annuleren</a>
+  </header>
+  <form action="/portal/customers/wizard" method="POST" class="needs-validation" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <ul class="nav nav-tabs" id="wizardTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="bedrijven-tab" data-bs-toggle="tab" data-bs-target="#bedrijfsgegevens"
+          type="button" role="tab" aria-controls="bedrijfsgegevens" aria-selected="true">Bedrijfsgegevens</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+          role="tab" aria-controls="profile" aria-selected="false">Contactgegevens</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="wizardTabContent">
+      <!--BEDRIJFSGEGEVENS TAB-->
+      <div class="tab-pane fade show active" id="bedrijfsgegevens" role="tabpanel"
+        aria-labelledby="bedrijfsgegevens-tab">
+        <% if(typeof errorMessage == "undefined"){ %>
+
+        <% } else { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= errorMessage  %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <%}%>
+          <h5 class="p-3">Algemene bedrijfsgegevens</h5>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="bedrijfsnaam" required>Bedrijfsnaam <span style="color: red;">*</span></span>
+            <input type="text" class="form-control" id="bedrijfsnaam_comp" placeholder="Bedrijfsnaam" aria-label="bedrijfsnaam" name="bedrijfsnaam"
+              aria-describedby="bedrijfsnaam" required>
+              <div class="invalid-feedback">
+                Vul een bedrijfsnaam in.
+              </div>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="kvk_nummer">KvK-nummer</span>
+            <input type="text" class="form-control" placeholder="KvK-nummer" aria-label="kvk_nummer" name="kvk_nummer"
+              aria-describedby="kvk_nummer">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="telefoonnummer1" required>Telefoonnummer 1 <span style="color: red;">*</span></span>
+            <input type="text" class="form-control" id="telefoonnummer_comp" placeholder="Telefoonnummer 1" name="telefoonnummer1" aria-label="telefoonnummer1"
+              name="telefoonnummer1" aria-describedby="telefoonnummer1" required>
+              <div class="invalid-feedback">
+                Vul een telefoonnummer in.
+              </div>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="telefoonnummer2">Telefoonnummer 2</span>
+            <input type="text" class="form-control" placeholder="Telefoonnummer 2" aria-label="telefoonnummer2"
+              name="telefoonnummer2" aria-describedby="telefoonnummer2">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="email" required>E-mailadres <span style="color: red;">*</span></span>
+            <input type="email" class="form-control" placeholder="E-mailadres" aria-label="email_comp" name="email_comp"
+              aria-describedby="email" id="email_comp" required>
+              <div class="invalid-feedback">
+                Vul een emailadres in.
+              </div>
+          </div>
+          <h5 class="mt-3 p-3">Adresinfo</h5>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="straat">Straat</span>
+            <input type="text" class="form-control" placeholder="Straat" aria-label="straat" name="straat"
+              aria-describedby="straat">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="huisnummer">Huisnummer</span>
+            <input type="text" class="form-control" placeholder="Huisnummer" aria-label="huisnummer" name="huisnummer"
+              aria-describedby="huisnummer">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="postcode">Postcode</span>
+            <input type="text" class="form-control" placeholder="Postcode" aria-label="postcode" name="postcode"
+              aria-describedby="postcode">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="plaats">Plaats</span>
+            <input type="text" class="form-control" placeholder="Plaats" aria-label="plaats" name="plaats"
+              aria-describedby="plaats">
+          </div>
+          <div class="row p-3">
+
+            <div class="col">
+              <button id="next-btn" class="btn btn-primary">Volgende</button>
+            </div>
+          </div>
+      </div>
+      <!--CONTACT TAB-->
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <h5 class="p-3">Contactgegevens</h5>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="voornaam" required>Voornaam <span style="color: red;">*</span></span>
+          <input type="text" class="form-control" placeholder="Voornaam" aria-label="voornaam" name="voornaam"
+            aria-describedby="voornaam" required>
+            <div class="invalid-feedback">
+              Vul een voornaam in.
+            </div>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="achternaam" required>Achternaam <span style="color: red;">*</span></span>
+          <input type="text" class="form-control" placeholder="Achternaam" aria-label="achternaam" name="achternaam"
+            aria-describedby="achternaam" required>
+            <div class="invalid-feedback">
+              Vul een achternaam in.
+            </div>
+        </div>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect01">Geslacht</label>
+          <select class="form-select" id="inputGroupSelect01" name="geslacht">
+            <option value="" selected>Geslacht...</option>
+            <option value="Man">Man</option>
+            <option value="Vrouw">Vrouw</option>
+            <option value="Onbekend">Onbekend</option>
+          </select>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="telefoonnummer1" required>Telefoonnummer 1 <span style="color: red;">*</span></span>
+          <input type="text" class="form-control" placeholder="Telefoonnummer 1" aria-label="telefoonnummer1"
+            name="telefoonnummer1_cp" aria-describedby="telefoonnummer1" required>
+            <div class="invalid-feedback">
+              Vul een telefoonnummer in.
+            </div>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="telefoonnummer2">Telefoonnummer 2</span>
+          <input type="text" class="form-control" placeholder="Telefoonnummer 2" aria-label="telefoonnummer2"
+            name="telefoonnummer2_cp" aria-describedby="telefoonnummer2">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="emailadres_cp" required>E-mailadres <span style="color: red;">*</span></span>
+          <input type="email" class="form-control" placeholder="E-mailadres" aria-label="emailadres" name="emailadres"
+            aria-describedby="emailadres" required>
+            <div class="invalid-feedback">
+              Vul een emailadres in.
+            </div>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="functie">Functie</span>
+          <input type="text" class="form-control" placeholder="Functie" aria-label="functie" name="functie"
+            aria-describedby="functie">
+        </div>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupSelect02">Beslissingsbevoegd</label>
+          <select class="form-select" id="inputGroupSelect02" name="beslissingsbevoegd">
+            <option value="0" selected>Nee</option>
+            <option value="1">Ja</option>
+          </select>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text">Opmerkingen</span>
+          <textarea class="form-control" name="remarks" aria-label="Opmerkingen"></textarea>
+        </div>
+
+        <div class="row p-3">
+
+          <div class="col">
+            <button id="prev-btn" class="btn btn-primary">Vorige</button>
+          </div>
+          <div class="col">
+            <button type="submit" class="btn btn-success">Opslaan</button>
+            
+          </div>
+        </div>
+      </div>
+  </form>
+
+</div>
+
+<script>
+document.getElementById('next-btn').addEventListener('click', nextTab);
+document.getElementById('prev-btn').addEventListener('click', prevTab);
+
+
+
+  function nextTab(e) {
+    e.preventDefault();
+
+    const bedrijfsnaam = document.getElementById('bedrijfsnaam_comp');
+    const telefoonnummer = document.getElementById('telefoonnummer_comp');
+    const emailadres = document.getElementById('email_comp');
+
+      if(bedrijfsnaam.value && telefoonnummer.value && emailadres.value) {
+        emailadres.classList.remove('is-invalid') && emailadres.classList.add('is-valid');
+        telefoonnummer.classList.remove('is-invalid') && telefoonnummer.classList.add('is-valid');
+        bedrijfsnaam.classList.remove('is-invalid') && bedrijfsnaam.classList.add('is-valid');
+        const contactTab = document.getElementById('contact-tab');
+         const tab = new bootstrap.Tab(contactTab);
+        tab.show();
+      } else {
+      !bedrijfsnaam.value ? bedrijfsnaam.classList.add('is-invalid') : bedrijfsnaam.classList.remove('is-invalid') && bedrijfsnaam.classList.add('is-valid');
+      !telefoonnummer.value ? telefoonnummer.classList.add('is-invalid') : telefoonnummer.classList.remove('is-invalid') && telefoonnummer.classList.add('is-valid');
+      !emailadres.value ? emailadres.classList.add('is-invalid') : emailadres.classList.remove('is-invalid') && emailadres.classList.add('is-valid');
+    }
+  }
+
+  function prevTab(e) {
+    e.preventDefault();
+    const bedrijvenTab = document.getElementById('bedrijven-tab');
+    const tab = new bootstrap.Tab(bedrijvenTab);
+    tab.show();
+  }
+
+  (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>
+<%- include('../../../../includes/footer.ejs') %>

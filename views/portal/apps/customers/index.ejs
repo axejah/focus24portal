@@ -3,11 +3,14 @@
 
 <div class="container">
   <header class="mt-5 mb-5">
-    <h3>Klantenoverzicht</h3>
+    <h3>Bedrijven</h3>
   </header>
   <div class="row mt-3 mb-3">
     <div class="col">
-      <a href="/portal/customers/add" class="btn btn-primary">+ Klant toevoegen</a>
+      <a href="/portal/customers/add" class="btn btn-primary">+ Bedrijf toevoegen</a>
+    </div>
+    <div class="col">
+      <a href="/portal/customers/wizard/actie" class="btn btn-success">BedrijfsWizard</a>
     </div>
     <div class="col d-flex justify-content-end">
       <a href="/portal" class="btn btn-warning">Ga terug</a>
@@ -15,7 +18,7 @@
   </div>
 
   <div class="row mt-3">
-    <input type="text" id="searchField" onkeyup="searchBox()" placeholder="Zoeken op klant..">
+    <input type="text" id="searchField" onkeyup="searchBox()" placeholder="Zoeken op bedrijf..">
   </div>
 
   <table class="table" id="customerTable">

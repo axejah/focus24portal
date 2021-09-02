@@ -94,4 +94,21 @@ router.post(
   isAuth,
   customerController.deleteAction
 );
+
+router.get('/portal/customers/wizard/', isAuth, customerController.getWizard);
+
+router.post('/portal/customers/wizard/', isAuth, customerController.postWizard);
+
+router.get(
+  '/portal/customers/wizard/actie',
+  isAuth,
+  customerController.getActionWizard
+);
+
+router.post(
+  '/portal/customers/wizard/actie',
+  isAuth,
+  customerController.postActionWizard
+);
+
 module.exports = router;
